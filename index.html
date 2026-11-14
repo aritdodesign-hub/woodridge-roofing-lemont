@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Woodridge Roofing Co. | Slate, Tile &amp; Sheet Metal Roofing in Lemont, IL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            // One family site-wide (Poppins): headings bold, body regular
+            sans: ['Poppins', 'system-ui', 'sans-serif'],
+            headline: ['Poppins', 'system-ui', 'sans-serif']
+          },
+          // Woodridge Roofing Co.: logo red + logo black; light rose on dark bands
+          colors: {
+            brand: { 50: '#fdf2f2', 500: '#ba201c', 600: '#9c1a17', 700: '#7f1512', 900: '#1a1a1a', 950: '#0f0f0f' }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Motion is opt-in: only switched on when JS runs and the visitor hasn't asked for reduced motion -->
+  <script>
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('motion');
+  </script>
+  <style>
+    /* ---------- Motion system ("settle": things rise a little, come into focus and land softly) ----------
+       Uses the individual translate/scale/clip-path properties so it never fights Tailwind's own transforms. */
+    :root { --ease-settle: cubic-bezier(.16, 1, .3, 1); --ease-soft: cubic-bezier(.22, .61, .36, 1); }
+
+    .motion [data-reveal] {
+      opacity: 0;
+      transition: opacity .9s var(--ease-soft), translate 1.2s var(--ease-settle), filter 1s var(--ease-soft), clip-path 1.4s var(--ease-settle);
+      transition-delay: var(--d, 0ms);
+    }
+    .motion [data-reveal="up"]      { translate: 0 22px; filter: blur(6px); }
+    .motion [data-reveal="lift"]    { translate: 0 28px; }
+    .motion [data-reveal="side"]    { translate: 22px 0; filter: blur(4px); }
+    .motion [data-reveal="mask"]    { translate: 0 .35em; clip-path: inset(-20% -6% 100% -6%); }
+    .motion [data-reveal="curtain"] { translate: 0 18px; clip-path: inset(8% 10% 8% 10% round 28px); }
+    .motion [data-reveal="curtain"] img { scale: 1.14; transition: scale 1.8s var(--ease-settle); transition-delay: var(--d, 0ms); }
+    .motion [data-reveal].is-in { opacity: 1; translate: 0 0; filter: none; clip-path: inset(0 0 0 0 round 0); }
+    .motion [data-reveal].is-in img { scale: 1; }
+    .motion [data-reveal="mask"].is-in { clip-path: inset(-20% -6% -30% -6%); }   /* room for descenders (g, y, p) */
+    .motion-init [data-reveal], .motion-init [data-reveal] img { transition: none !important; }   /* hide instantly, no fade-out first */
+    .motion:not(.loaded) #top > section:first-child .relative.z-10 > * { opacity: 0; }        /* hero text hidden from first paint */
+
+    /* Hero: the photo/video eases back from a slight zoom while the bar and header drift down into place */
+    .motion #heroVideo { scale: 1.08; transition: scale 2.8s var(--ease-settle); }
+    .motion #leadBar, .motion #siteHeader { opacity: 0; translate: 0 -10px; }
+    .motion #leadBar { transition: opacity .8s var(--ease-soft) .1s, translate 1s var(--ease-settle) .1s; }
+    .motion #siteHeader { transition: background-color .3s, box-shadow .3s, opacity .8s var(--ease-soft) .2s, translate 1s var(--ease-settle) .2s; }
+    .motion.loaded #heroVideo { scale: 1; }
+    .motion.loaded #leadBar, .motion.loaded #siteHeader { opacity: 1; translate: 0 0; }
+
+    /* Primary buttons: a slow band of light passes across, and the button lifts a hair */
+    .motion :is(a, button):is(.bg-brand-500, .bg-brand-600, .hdr-cta, [class*="bg-brand-500/"]) {
+      position: relative; overflow: hidden; isolation: isolate;
+      transition: background-color .3s, color .3s, border-color .3s, box-shadow .5s var(--ease-soft), translate .5s var(--ease-settle);
+    }
+    .motion :is(a, button):is(.bg-brand-500, .bg-brand-600, .hdr-cta, [class*="bg-brand-500/"])::after {
+      content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background: linear-gradient(110deg, transparent 32%, rgba(255,255,255,.32) 50%, transparent 68%);
+      translate: -135% 0; transition: translate 1.1s var(--ease-soft);
+    }
+    .motion :is(a, button):is(.bg-brand-500, .bg-brand-600, .hdr-cta, [class*="bg-brand-500/"]):hover { translate: 0 -2px; }
+    .motion :is(a, button):is(.bg-brand-500, .bg-brand-600, .hdr-cta, [class*="bg-brand-500/"]):hover::after { translate: 135% 0; }
+
+    /* Nav: a hairline draws out from the centre under the hovered link */
+    .nav-link { position: relative; }
+    .nav-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1.5px; border-radius: 2px; background: currentColor;
+                       transform: scaleX(0); transform-origin: center; transition: transform .5s var(--ease-settle); }
+    .nav-link:hover::after, .nav-link:focus-visible::after { transform: scaleX(1); }
+
+    /* Review cards rise gently on hover; FAQ toggle turns as it opens; footer links nudge toward the pointer */
+    #reviews article { transition: translate .6s var(--ease-settle), box-shadow .6s var(--ease-soft); }
+    #reviews article:hover { translate: 0 -4px; box-shadow: 0 18px 40px -18px rgba(15,23,42,.28); }
+    details.faq summary > span { transition: transform .6s var(--ease-settle), background-color .3s, border-color .3s, color .3s; }
+    details.faq[open] summary > span { transform: rotate(180deg); }
+    footer .grid a { transition: color .25s, translate .45s var(--ease-settle); }
+    footer .grid a:hover { translate: 3px 0; }
+
+    /* ---------- Header: transparent over the hero, white once scrolled ---------- */
+    #siteHeader { transition: background-color .3s, box-shadow .3s; }
+    #siteHeader .hdr-row { transition: padding .3s; }
+    #siteHeader .logo-mark { color: #fff; transition: color .3s; }
+    #siteHeader .logo-text { color: #fff; transition: color .3s; }
+    #siteHeader .nav-link { color: rgba(255,255,255,.9); transition: color .3s; }
+    #siteHeader .nav-link:hover { color: #fff; }
+    /* Free Inspection: solid brand button in both header states so it stays the strongest thing in the bar */
+    #siteHeader .hdr-cta { background: #ba201c; border-color: #ba201c; color: #fff; box-shadow: 0 8px 20px -8px rgba(186,32,28,.6); }
+    #siteHeader .hdr-cta:hover { background: #9c1a17; border-color: #9c1a17; }
+    #siteHeader .burger { color: #fff; }
+
+    #siteHeader.is-scrolled { background: #fff; box-shadow: 0 6px 24px -12px rgba(15,23,42,.25); }
+    #siteHeader.is-scrolled .logo-mark { color: #ba201c; }
+    #siteHeader.is-scrolled .logo-text { color: #0f172a; }
+    #siteHeader.is-scrolled .nav-link { color: #334155; }
+    #siteHeader.is-scrolled .nav-link:hover { color: #ba201c; }
+    #siteHeader.is-scrolled .burger { color: #0f172a; }
+
+    /* Dropdowns */
+    .dd-panel { opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity .2s, transform .2s, visibility .2s; }
+    .dd:hover .dd-panel, .dd:focus-within .dd-panel { opacity: 1; visibility: visible; transform: translateY(0); }
+
+    /* Mobile menu */
+    #mobileMenu { transform: translateX(100%); transition: transform .3s ease; }
+    #mobileMenu.open { transform: translateX(0); }
+
+    /* Map: Leaflet ships its own fonts (Helvetica, Lucida Console) — keep Poppins everywhere */
+    #areaMap, #areaMap .leaflet-container, #areaMap .leaflet-tooltip,
+    #areaMap .leaflet-control-attribution, #areaMap .leaflet-control-zoom a { font-family: 'Poppins', system-ui, sans-serif; }
+
+    /* Service cards: title only; description + link slide up on hover. Touch screens always show them. */
+    .svc-more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s ease; }
+    .svc-more > div { overflow: hidden; }
+    .svc-more p, .svc-more span { opacity: 0; transition: opacity .4s ease .1s; }
+    .svc-card:hover .svc-more, .svc-card:focus-visible .svc-more { grid-template-rows: 1fr; }
+    .svc-card:hover .svc-more p, .svc-card:hover .svc-more span,
+    .svc-card:focus-visible .svc-more p, .svc-card:focus-visible .svc-more span { opacity: 1; }
+    @media (hover: none) {
+      .svc-more { grid-template-rows: 1fr; }
+      .svc-more p, .svc-more span { opacity: 1; }
+    }
+
+    /* Nav glide: clicking an in-page link presses it, a brand line runs along the header while the page glides,
+       and the section heading settles in with a short underline when it lands. Nav link of the current section stays underlined. */
+    .nav-link.is-active::after { transform: scaleX(1); }
+    .nav-hit { animation: navHit .45s var(--ease-settle); }
+    @keyframes navHit { 0% { transform: scale(1); } 35% { transform: scale(.92); } 100% { transform: scale(1); } }
+    .nav-glide { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; transform: scaleX(0); transform-origin: left; opacity: 0; transition: opacity .4s; pointer-events: none; }
+    .nav-glide.is-on { opacity: 1; }
+    .nav-arrive { animation: navArrive .9s var(--ease-settle) both; animation-delay: var(--d, 0ms); }
+    @keyframes navArrive { from { opacity: .3; translate: 0 14px; filter: blur(4px); } to { opacity: 1; translate: 0 0; filter: none; } }
+    .nav-arrive-bar { position: absolute; bottom: -10px; height: 3px; width: 56px; border-radius: 3px; animation: navBar 1.6s var(--ease-settle) both; }
+    @keyframes navBar { 0% { transform: var(--x, none) scaleX(0); opacity: 1; } 45% { transform: var(--x, none) scaleX(1); opacity: 1; } 100% { transform: var(--x, none) scaleX(1); opacity: 0; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      #heroVideo { display: none; }
+      .nav-link::after, #reviews article, details.faq summary > span, footer .grid a { transition: none; }
+      #reviews article:hover, footer .grid a:hover { translate: none; }
+    }
+  </style>
+</head>
+<body class="bg-white font-sans text-slate-800 antialiased">
+
+  <!-- ================= LEAD BAR (swap per lead) ================= -->
+  <!-- No background: floats over the hero photo/video and reads on the hero's top fade -->
+  <div id="leadBar" class="absolute inset-x-0 top-0 z-[60] text-white">
+    <!-- xl: 3 columns (spacer | lead info centred | cities right) so the two can never overlap -->
+    <div class="mx-auto max-w-7xl px-4 xl:grid xl:grid-cols-[1fr_auto_1fr] xl:items-center xl:gap-6 xl:px-6">
+    <div class="hidden xl:block"></div>
+    <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 py-2.5 text-[13px] sm:gap-x-0 sm:text-[15px]">
+      <span class="hidden font-medium sm:block sm:px-7 xl:px-6">Woodridge Roofing Co.</span>
+      <span class="hidden h-7 w-px bg-white/15 sm:block"></span>
+      <a href="tel:+16302438713" class="-my-2 flex items-center gap-2.5 py-2 hover:text-white/80 sm:px-7 xl:px-6">
+        <svg class="h-4 w-4 text-[#f4b4ae]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
+        (630) 243-8713
+      </a>
+      <span class="hidden h-7 w-px bg-white/15 sm:block"></span>
+      <a href="mailto:sales@woodridgeenterprises.com" class="-my-2 flex items-center gap-2.5 py-2 hover:text-white/80 sm:px-7 xl:px-6">
+        <svg class="h-4 w-4 text-[#f4b4ae]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v.4l-10 6.25L2 6.4V6a1 1 0 0 1 1-1zm-1 3.75 9.47 5.92a1 1 0 0 0 1.06 0L22 8.75V18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/></svg>
+        sales@woodridgeenterprises.com
+      </a>
+    </div>
+      <!-- cities: wide screens only (also listed in the Service Areas dropdown) -->
+      <div class="hidden items-center justify-end gap-3 whitespace-nowrap text-xs text-white/75 xl:flex">
+        <svg class="h-3.5 w-3.5 text-[#f4b4ae]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+        <a href="#find" class="hover:text-white">Lemont</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= HEADER ================= -->
+  <header id="siteHeader" class="fixed inset-x-0 z-50">
+    <div class="hdr-row mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-4 lg:px-6 lg:py-5">
+      <!-- Logo: replace the house mark + name with the client's logo (keep ~h-14 box) -->
+      <a href="#top" class="flex min-w-0 items-center gap-2.5" aria-label="Woodridge Roofing Co. home">
+        <img src="images/logo.png" alt="" class="logo-mark h-10 w-10 shrink-0 rounded-lg bg-white object-contain p-1 shadow-sm sm:h-11 sm:w-11 lg:h-12 lg:w-12">
+        <span class="logo-text font-headline text-[15px] font-extrabold uppercase leading-[1.1] tracking-tight sm:text-lg lg:text-xl"><span class="block whitespace-nowrap max-[339px]:text-[13px] max-[319px]:text-[11px] max-[289px]:text-[10px]">Woodridge Roofing</span><span class="block mt-0.5 whitespace-nowrap text-[0.68em] tracking-[0.16em] max-[339px]:tracking-[0.08em] max-[319px]:text-[7.5px] max-[319px]:tracking-[0.04em]">LEMONT, ILLINOIS</span></span>
+      </a>
+
+      <nav class="hidden items-center gap-4 whitespace-nowrap lg:flex xl:gap-7" aria-label="Main">
+        <a href="#top" class="nav-link text-[13px] font-semibold uppercase tracking-wide xl:text-sm">Home</a>
+        <div class="dd relative">
+          <a href="#services" class="nav-link inline-flex items-center gap-1 py-2 text-[13px] font-semibold uppercase tracking-wide xl:text-sm">Services
+            <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5.3 7.3a1 1 0 0 1 1.4 0L10 10.6l3.3-3.3a1 1 0 1 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 0-1.4z"/></svg></a>
+          <div class="dd-panel absolute left-1/2 top-full w-64 -translate-x-1/2 pt-3">
+            <div class="rounded-2xl bg-white p-2 shadow-xl ring-1 ring-slate-900/5">
+              <a href="#services" class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-brand-600">Slate Roofing</a>
+              <a href="#services" class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-brand-600">Tile Roofing</a>
+              <a href="#services" class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-brand-600">Architectural Sheet Metal</a>
+              <a href="#services" class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-brand-600">Siding Installation</a>
+            </div>
+          </div>
+        </div>
+        <div class="dd relative">
+          <a href="#find" class="nav-link inline-flex items-center gap-1 py-2 text-[13px] font-semibold uppercase tracking-wide xl:text-sm">Service Areas
+            <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M5.3 7.3a1 1 0 0 1 1.4 0L10 10.6l3.3-3.3a1 1 0 1 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 0-1.4z"/></svg></a>
+          <div class="dd-panel absolute left-1/2 top-full w-56 -translate-x-1/2 pt-3">
+            <div class="rounded-2xl bg-white p-2 shadow-xl ring-1 ring-slate-900/5">
+              <a href="#find" class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-brand-600">Lemont</a>
+            </div>
+          </div>
+        </div>
+        <a href="#about" class="nav-link text-[13px] font-semibold uppercase tracking-wide xl:text-sm">About Us</a>
+        <a href="#contact" class="nav-link text-[13px] font-semibold uppercase tracking-wide xl:text-sm">Contact Us</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="#contact" class="hdr-cta hidden whitespace-nowrap rounded-full border-2 px-7 lg:max-xl:px-4 py-3 text-[13px] font-bold uppercase tracking-wide transition-colors sm:inline-flex">Get a Quote</a>
+        <button id="menuOpen" class="burger -mr-1 p-2 lg:hidden" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+          <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile menu -->
+  <div id="menuScrim" class="fixed inset-0 z-[70] hidden bg-black/50"></div>
+  <aside id="mobileMenu" class="fixed inset-y-0 right-0 z-[80] flex w-[85%] max-w-sm flex-col overflow-y-auto bg-white px-6 pb-8 pt-5 shadow-2xl" aria-label="Mobile menu">
+    <div class="flex items-center justify-between">
+      <span class="font-headline text-lg font-extrabold uppercase text-slate-900">Woodridge Roofing Co.</span>
+      <button id="menuClose" class="-mr-2 p-2 text-slate-700" aria-label="Close menu">
+        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <nav class="mt-6 flex flex-col divide-y divide-slate-100 text-[15px] font-semibold uppercase tracking-wide text-slate-800">
+      <a href="#top" class="py-3.5">Home</a>
+      <a href="#services" class="py-3.5">Services</a>
+      <a href="#find" class="py-3.5">Service Areas</a>
+      <a href="#about" class="py-3.5">About Us</a>
+      <a href="#contact" class="py-3.5">Contact Us</a>
+    </nav>
+    <a href="#contact" class="mt-6 inline-flex items-center justify-center rounded-full bg-brand-500 px-6 py-3.5 text-sm font-bold uppercase tracking-wide text-white">Get a Quote</a>
+    <a href="tel:+16302438713" class="mt-3 inline-flex items-center justify-center rounded-full border-2 border-slate-200 px-6 py-3.5 text-sm font-bold text-slate-800">(630) 243-8713</a>
+  </aside>
+
+  <main id="top">
+    <!-- ================= HERO (video) ================= -->
+    <section class="relative flex min-h-[88svh] w-full flex-col overflow-hidden bg-black">
+      <!-- Video: drop the client's (or stock) clip at images/hero.mp4; poster shows until it plays -->
+      <video id="heroVideo" class="absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline preload="metadata" poster="images/hero-poster.jpg">
+      </video>
+      <div class="absolute inset-0 z-[1] bg-black/50"></div>
+      <!-- one continuous top fade behind lead bar + header, so white text reads on any photo with no seam -->
+      <div class="pointer-events-none absolute inset-x-0 top-0 z-[2] h-72" style="background:linear-gradient(to bottom,rgba(0,0,0,.55) 0%,rgba(0,0,0,.3) 50%,transparent 100%)"></div>
+
+      <div class="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center px-6 pb-24 pt-44 text-center lg:items-start lg:pb-32 lg:pt-56 lg:text-left">
+        <h1 class="max-w-4xl font-headline text-[34px] font-bold leading-[1.08] tracking-tight text-white sm:text-[42px] md:text-6xl lg:text-[72px]">Slate, Tile &amp; Sheet Metal Roofing in Chicagoland</h1>
+        <p class="mt-5 max-w-3xl text-base font-light leading-relaxed text-white/80 sm:text-lg md:text-xl">Woodridge Roofing Co. installs slate roofs, tile roofs, architectural sheet metal and siding for homes and buildings across Chicagoland, working out of Lemont, Illinois.</p>
+
+        <ul class="mt-6 grid w-full max-w-2xl grid-cols-1 gap-x-8 gap-y-2.5 text-left sm:grid-cols-2">
+          <li class="flex items-center gap-2.5 text-sm font-semibold text-white sm:text-base"><svg class="h-5 w-5 shrink-0 text-[#f4b4ae]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm3.7-9.3a1 1 0 0 0-1.4-1.4L9 10.6 7.7 9.3a1 1 0 0 0-1.4 1.4l2 2a1 1 0 0 0 1.4 0z" clip-rule="evenodd"/></svg>Slate Roofing</li>
+          <li class="flex items-center gap-2.5 text-sm font-semibold text-white sm:text-base"><svg class="h-5 w-5 shrink-0 text-[#f4b4ae]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm3.7-9.3a1 1 0 0 0-1.4-1.4L9 10.6 7.7 9.3a1 1 0 0 0-1.4 1.4l2 2a1 1 0 0 0 1.4 0z" clip-rule="evenodd"/></svg>Tile Roofing</li>
+          <li class="flex items-center gap-2.5 text-sm font-semibold text-white sm:text-base"><svg class="h-5 w-5 shrink-0 text-[#f4b4ae]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm3.7-9.3a1 1 0 0 0-1.4-1.4L9 10.6 7.7 9.3a1 1 0 0 0-1.4 1.4l2 2a1 1 0 0 0 1.4 0z" clip-rule="evenodd"/></svg>Architectural Sheet Metal</li>
+          <li class="flex items-center gap-2.5 text-sm font-semibold text-white sm:text-base"><svg class="h-5 w-5 shrink-0 text-[#f4b4ae]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm3.7-9.3a1 1 0 0 0-1.4-1.4L9 10.6 7.7 9.3a1 1 0 0 0-1.4 1.4l2 2a1 1 0 0 0 1.4 0z" clip-rule="evenodd"/></svg>Siding Installation</li>
+        </ul>
+
+        <div class="mt-8 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4 lg:justify-start">
+          <a href="#contact" class="inline-flex min-h-[48px] items-center justify-center rounded-full border border-white/20 bg-brand-500/60 px-8 py-3.5 text-sm font-semibold uppercase tracking-wide text-white shadow-lg backdrop-blur-xl transition-colors hover:bg-brand-500/80">Get a Quote</a>
+          <a href="tel:+16302438713" class="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border-2 border-white/40 px-8 py-3.5 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-white/10">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
+            (630) 243-8713
+          </a>
+        </div>
+
+        <!-- Social / profile links: round glass buttons. Delete any the client doesn't have. -->
+        <ul class="mt-8 flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 lg:justify-start">
+          <li><a href="mailto:sales@woodridgeenterprises.com" aria-label="Email us" title="Email us" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/15 backdrop-blur-md sm:h-12 sm:w-12 transition hover:-translate-y-0.5 hover:bg-white/25"><span class="flex h-8 w-8 items-center justify-center rounded-full bg-white sm:h-9 sm:w-9">
+            <svg class="h-[18px] w-[18px] text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></svg></span></a></li>
+          <li><a href="https://www.facebook.com/p/Woodridge-Enterprises-Inc-61579327649316/" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/15 backdrop-blur-md sm:h-12 sm:w-12 transition hover:-translate-y-0.5 hover:bg-white/25"><span class="flex h-8 w-8 items-center justify-center rounded-full bg-white sm:h-9 sm:w-9">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M15.1 15.5l.5-3.5h-3.3V9.8c0-1 .5-1.9 2-1.9h1.5v-3s-1.4-.2-2.7-.2c-2.8 0-4.5 1.7-4.5 4.7V12H5.5v3.5h3.1V24h3.7v-8.5z"/></svg></span></a></li>
+          <li><a href="https://maps.google.com/?cid=15583210223223763996" target="_blank" rel="noopener" aria-label="Google Business Profile" title="Find us on Google" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/15 backdrop-blur-md sm:h-12 sm:w-12 transition hover:-translate-y-0.5 hover:bg-white/25"><span class="flex h-8 w-8 items-center justify-center rounded-full bg-white sm:h-9 sm:w-9">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true"><path fill="#EA4335" d="M12 1.5a7.5 7.5 0 0 0-7.5 7.5c0 5.6 7.5 13.5 7.5 13.5s7.5-7.9 7.5-13.5A7.5 7.5 0 0 0 12 1.5z"/><path fill="#4285F4" d="M12 1.5a7.5 7.5 0 0 1 7.5 7.5c0 1.6-.6 3.4-1.6 5.2L12 9z"/><path fill="#34A853" d="M6.1 13.8 12 9l-3.3 8.8a33 33 0 0 1-2.6-4z"/><path fill="#FBBC05" d="M12 9 4.5 9c0 1.5.6 3.2 1.6 4.8z"/><circle cx="12" cy="9" r="2.7" fill="#fff"/></svg></span></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= SERVICES (8 photo cards) ================= -->
+    <!-- Images: images/temp-service-1..8 are TEMPORARY — replace each with the client's photo of that service (portrait crop, ~5:6). Fewer services? Delete whole cards; keep an even count (4 or 8) so rows stay full. -->
+    <section id="services" class="bg-brand-50 pb-14 pt-10 lg:pb-16 lg:pt-12">
+      <div class="mx-auto max-w-7xl px-5 lg:px-6">
+        <div class="mx-auto max-w-3xl text-center">
+          <p class="text-sm font-semibold uppercase tracking-[0.18em] text-brand-600">What We Do</p>
+          <h2 class="mt-3 font-headline text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-[44px]">Specialty Roofing &amp; Siding</h2>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:mt-10 lg:grid-cols-4">
+          <a href="#contact" class="svc-card group relative block aspect-[5/6] overflow-hidden rounded-2xl bg-slate-900 lg:rounded-3xl">
+            <img src="images/service-slate.jpg" alt="Slate Roofing" loading="lazy" class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent transition-opacity duration-500"></div>
+            <div class="absolute inset-x-0 bottom-0 p-7 lg:p-8">
+              <h3 class="font-headline text-xl font-bold leading-snug text-white lg:text-[22px]">Slate Roofing</h3>
+              <div class="svc-more"><div>
+                <p class="pt-3 text-sm leading-relaxed text-white/85">Natural slate roofs installed with the care a long-lasting roof deserves.</p>
+                <span class="mt-4 inline-flex items-center gap-2 text-sm font-bold text-white">View More <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M8 12h8m-3-3 3 3-3 3"/></svg></span>
+              </div></div>
+            </div>
+          </a>
+          <a href="#contact" class="svc-card group relative block aspect-[5/6] overflow-hidden rounded-2xl bg-slate-900 lg:rounded-3xl">
+            <img src="images/service-tile.jpg" alt="Tile Roofing" loading="lazy" class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent transition-opacity duration-500"></div>
+            <div class="absolute inset-x-0 bottom-0 p-7 lg:p-8">
+              <h3 class="font-headline text-xl font-bold leading-snug text-white lg:text-[22px]">Tile Roofing</h3>
+              <div class="svc-more"><div>
+                <p class="pt-3 text-sm leading-relaxed text-white/85">Clay and concrete tile roofs for homes that call for a classic look.</p>
+                <span class="mt-4 inline-flex items-center gap-2 text-sm font-bold text-white">View More <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M8 12h8m-3-3 3 3-3 3"/></svg></span>
+              </div></div>
+            </div>
+          </a>
+          <a href="#contact" class="svc-card group relative block aspect-[5/6] overflow-hidden rounded-2xl bg-slate-900 lg:rounded-3xl">
+            <img src="images/service-sheet-metal.jpg" alt="Architectural Sheet Metal" loading="lazy" class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent transition-opacity duration-500"></div>
+            <div class="absolute inset-x-0 bottom-0 p-7 lg:p-8">
+              <h3 class="font-headline text-xl font-bold leading-snug text-white lg:text-[22px]">Architectural Sheet Metal</h3>
+              <div class="svc-more"><div>
+                <p class="pt-3 text-sm leading-relaxed text-white/85">Metal roofing and sheet metal details, shaped and fitted to your building.</p>
+                <span class="mt-4 inline-flex items-center gap-2 text-sm font-bold text-white">View More <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M8 12h8m-3-3 3 3-3 3"/></svg></span>
+              </div></div>
+            </div>
+          </a>
+          <a href="#contact" class="svc-card group relative block aspect-[5/6] overflow-hidden rounded-2xl bg-slate-900 lg:rounded-3xl">
+            <img src="images/service-siding.jpg" alt="Siding Installation" loading="lazy" class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent transition-opacity duration-500"></div>
+            <div class="absolute inset-x-0 bottom-0 p-7 lg:p-8">
+              <h3 class="font-headline text-xl font-bold leading-snug text-white lg:text-[22px]">Siding Installation</h3>
+              <div class="svc-more"><div>
+                <p class="pt-3 text-sm leading-relaxed text-white/85">New siding installed to finish the outside of your home.</p>
+                <span class="mt-4 inline-flex items-center gap-2 text-sm font-bold text-white">View More <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M8 12h8m-3-3 3 3-3 3"/></svg></span>
+              </div></div>
+            </div>
+          </a>
+          <!-- Extra services (9+): hidden until "View More Services" is clicked. Add more by copying a card here (keep class svc-extra). No extras? Delete these cards — the button hides itself. -->
+        </div>
+
+        <!-- Shows/hides the svc-extra cards; removes itself when there are none -->
+        <div id="svcMoreWrap" class="mt-8 text-center lg:mt-10">
+          <button id="svcMore" type="button" aria-expanded="false" class="inline-flex items-center gap-2.5 rounded-xl bg-brand-500 px-7 py-4 text-[15px] font-bold text-white shadow-lg shadow-brand-500/20 transition-colors hover:bg-brand-600"><span>View More Services</span>
+            <svg class="h-5 w-5 rotate-90 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M8 12h8m-3-3 3 3-3 3"/></svg></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT US ================= -->
+    <section id="about" class="bg-white pb-14 pt-12 lg:pb-16 lg:pt-14">
+      <div class="mx-auto grid max-w-7xl items-center gap-10 px-5 lg:grid-cols-2 lg:gap-16 lg:px-6">
+
+        <!-- Photo: one full-size rounded photo (team, truck or a finished roof). images/temp-about.webp is TEMPORARY — replace.
+             Desktop: stretches to the text column's height. -->
+        <div class="relative aspect-[27/28] w-full overflow-hidden rounded-2xl sm:aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[460px] lg:self-stretch lg:rounded-3xl">
+          <img src="images/about.jpg" alt="Two-story colonial home with a dark roof and green shutters" loading="lazy" class="absolute inset-0 h-full w-full object-cover">
+        </div>
+
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.18em] text-brand-600">About Us</p>
+          <h2 class="mt-3 font-headline text-3xl font-bold leading-tight tracking-tight text-brand-700 sm:text-4xl lg:text-[44px]">Chicagoland&rsquo;s Slate, Tile &amp; Sheet Metal Roofer</h2>
+          <p class="mt-5 text-[15px] leading-7 text-slate-600 sm:text-base sm:leading-8">Woodridge Roofing Co. (Woodridge Enterprises, Inc.) is a roofing contractor at 15701 W 127th St in Lemont, Illinois. We specialize in slate, tile and architectural sheet metal roofing, and we install siding too, for homeowners and building owners across Chicagoland. Call (630) 243-8713 to talk about your project.</p>
+
+          <ul class="mt-7 space-y-4 rounded-2xl bg-brand-50 px-6 py-6 sm:px-7">
+            <li class="flex items-start gap-3 text-[15px] font-medium text-brand-700 sm:text-base"><svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm3.7-9.3a1 1 0 0 0-1.4-1.4L9 10.6 7.7 9.3a1 1 0 0 0-1.4 1.4l2 2a1 1 0 0 0 1.4 0z" clip-rule="evenodd"/></svg>Slate &amp; tile roofing</li>
+            <li class="flex items-start gap-3 text-[15px] font-medium text-brand-700 sm:text-base"><svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm3.7-9.3a1 1 0 0 0-1.4-1.4L9 10.6 7.7 9.3a1 1 0 0 0-1.4 1.4l2 2a1 1 0 0 0 1.4 0z" clip-rule="evenodd"/></svg>Architectural sheet metal</li>
+            <li class="flex items-start gap-3 text-[15px] font-medium text-brand-700 sm:text-base"><svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm3.7-9.3a1 1 0 0 0-1.4-1.4L9 10.6 7.7 9.3a1 1 0 0 0-1.4 1.4l2 2a1 1 0 0 0 1.4 0z" clip-rule="evenodd"/></svg>Based in Lemont, IL</li>
+          </ul>
+
+          <div class="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
+            <a href="#contact" class="inline-flex items-center justify-center gap-2.5 rounded-xl bg-brand-500 px-7 py-4 text-[15px] font-bold text-white shadow-lg shadow-brand-500/20 transition-colors hover:bg-brand-600">Request a Quote
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M8 12h8m-3-3 3 3-3 3"/></svg></a>
+            <a href="tel:+16302438713" class="group flex items-center gap-4">
+              <svg class="h-10 w-10 shrink-0 text-brand-500" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 7.5h4l2 6-3 2a15 15 0 0 0 9 9l2-3 6 2v4a3 3 0 0 1-3 3A23 23 0 0 1 9.5 10.5a3 3 0 0 1 3-3z"/><path d="M24 6.5a10 10 0 0 1 9.5 9.5M24 11.5a5 5 0 0 1 4.5 4.5"/></svg>
+              <span>
+                <span class="block text-sm text-slate-500">Call to set up a visit</span>
+                <span class="block font-headline text-xl font-bold text-brand-700 group-hover:text-brand-500 sm:text-2xl">(630) 243-8713</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================= OUR WORK (photo slider + video slider) ================= -->
+    <!-- Photos: images/temp-project-1..8 are TEMPORARY — use the client's own finished-job photos only. Copy/delete whole slides to change the count.
+         Videos: put each YouTube video's 11-character ID in VIDEO_n_ID (youtube.com/watch?v=THIS_PART); the thumbnail loads from YouTube automatically.
+         No videos? Delete the whole "Project videos" block. -->
+    <section id="work" class="overflow-hidden bg-white pb-14 pt-12 lg:pb-16 lg:pt-14">
+      <div class="mx-auto max-w-3xl px-5 text-center">
+        <p class="text-sm font-semibold uppercase tracking-[0.18em] text-brand-600">Our Work</p>
+        <h2 class="mt-3 font-headline text-3xl font-bold uppercase leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-[44px]">Slate, Tile &amp; Metal Roofs</h2>
+        <p class="mx-auto mt-4 max-w-xl text-[15px] leading-7 text-slate-600 sm:text-base">The kinds of roofs we work on across Chicagoland.</p>
+      </div>
+
+      <!-- Project photos: full-width row that slides on its own -->
+      <div class="slider relative mt-8 px-4 md:px-8 lg:mt-10" data-autoplay aria-roledescription="carousel" aria-label="Project photos">
+        <div class="overflow-hidden" data-viewport>
+          <div class="flex transition-transform duration-700 ease-[cubic-bezier(.22,.61,.36,1)]" data-track>
+          <div class="w-72 shrink-0 pr-5 md:w-80 md:pr-6 lg:w-96">
+            <figure class="group relative h-80 overflow-hidden rounded-xl bg-slate-200 md:h-96">
+              <img src="images/project-1.jpg" alt="Aerial view of a gray standing seam metal hip roof" loading="lazy" draggable="false" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
+            </figure>
+          </div>
+          <div class="w-72 shrink-0 pr-5 md:w-80 md:pr-6 lg:w-96">
+            <figure class="group relative h-80 overflow-hidden rounded-xl bg-slate-200 md:h-96">
+              <img src="images/project-2.jpg" alt="Cottage with a steep clay tile roof among trees" loading="lazy" draggable="false" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
+            </figure>
+          </div>
+          <div class="w-72 shrink-0 pr-5 md:w-80 md:pr-6 lg:w-96">
+            <figure class="group relative h-80 overflow-hidden rounded-xl bg-slate-200 md:h-96">
+              <img src="images/project-3.jpg" alt="Aerial view of a dark metal roof on a home" loading="lazy" draggable="false" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
+            </figure>
+          </div>
+          <div class="w-72 shrink-0 pr-5 md:w-80 md:pr-6 lg:w-96">
+            <figure class="group relative h-80 overflow-hidden rounded-xl bg-slate-200 md:h-96">
+              <img src="images/project-4.jpg" alt="Gray roof with a dormer window seen through leaves" loading="lazy" draggable="false" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
+            </figure>
+          </div>
+          </div>
+        </div>
+        <button type="button" data-prev aria-label="Previous photos" class="absolute left-6 top-1/2 z-10 -translate-y-1/2 md:left-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-slate-800 shadow-md backdrop-blur transition hover:bg-white"><svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 5-5 5 5 5"/></svg></button>
+        <button type="button" data-next aria-label="Next photos" class="absolute right-6 top-1/2 z-10 -translate-y-1/2 md:right-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-slate-800 shadow-md backdrop-blur transition hover:bg-white"><svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 5 5 5-5 5"/></svg></button>
+      </div>
+    </section>
+
+    <!-- ================= WHY CHOOSE US (dark photo band) ================= -->
+    <!-- images/temp-why.webp is TEMPORARY — replace with a crew-at-work photo (it sits under a dark overlay).
+         7 points; every number/claim must be the client's REAL one. Fewer? Delete whole <li> rows. -->
+    <section id="why" class="relative isolate overflow-hidden bg-slate-900 py-14 lg:py-16">
+      <img src="images/why-crew.jpg" alt="" loading="lazy" class="absolute inset-0 -z-10 h-full w-full object-cover">
+      <div class="absolute inset-0 -z-10 bg-black/70"></div>
+
+      <div class="mx-auto grid max-w-7xl items-center gap-10 px-5 lg:grid-cols-2 lg:gap-16 lg:px-6">
+        <div>
+          <h2 class="font-headline text-3xl font-bold leading-tight tracking-tight text-[#f4b4ae] sm:text-4xl lg:text-[44px]">Why Choose Us</h2>
+          <p class="mt-5 text-[15px] font-medium text-white sm:text-base">Why Choose Woodridge Roofing</p>
+          <p class="mt-1 text-[15px] leading-7 text-white/90 sm:text-base">Specialty roofing materials need a roofer who works with them. That&rsquo;s what we do.</p>
+          <a href="#contact" class="mt-9 inline-flex items-center justify-center rounded-md bg-brand-500 px-6 py-3 text-center text-[15px] font-medium text-white shadow-lg transition-colors hover:bg-brand-600">Click Here to Request a Quote</a>
+        </div>
+
+        <ul class="space-y-5 sm:space-y-6">
+          <li class="flex items-center gap-5 text-[15px] font-medium text-white sm:gap-7 sm:text-base">
+            <svg class="h-9 w-9 shrink-0 text-[#f4b4ae]" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="28" height="9" rx="2"/><path d="m11 5.6.8 1.6 1.7.2-1.2 1.2.3 1.7-1.6-.8-1.6.8.3-1.7-1.2-1.2 1.7-.2zm7 0 .8 1.6 1.7.2-1.2 1.2.3 1.7-1.6-.8-1.6.8.3-1.7-1.2-1.2 1.7-.2zm7 0 .8 1.6 1.7.2-1.2 1.2.3 1.7-1.6-.8-1.6.8.3-1.7-1.2-1.2 1.7-.2z"/><circle cx="10" cy="20" r="3.5"/><path d="M4 31a6 6 0 0 1 12 0M20 19h12M20 24h12M20 29h8"/></svg>
+            Slate roofing specialists</li>
+          <li class="flex items-center gap-5 text-[15px] font-medium text-white sm:gap-7 sm:text-base">
+            <svg class="h-9 w-9 shrink-0 text-[#f4b4ae]" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 30 11 12h22l-8 18z"/><path d="M7 21h22M5 26h22M15 12l-8 18M21 12l-8 18M27 12l-8 18"/><path d="M14 12V5h5v7"/></svg>
+            Tile roofing installation</li>
+          <li class="flex items-center gap-5 text-[15px] font-medium text-white sm:gap-7 sm:text-base">
+            <svg class="h-9 w-9 shrink-0 text-[#f4b4ae]" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="10" r="4"/><circle cx="8" cy="14" r="3"/><circle cx="28" cy="14" r="3"/><path d="M11 30v-4a7 7 0 0 1 14 0v4M2 28v-2a5 5 0 0 1 8-4M34 28v-2a5 5 0 0 0-8-4"/></svg>
+            Architectural sheet metal</li>
+          <li class="flex items-center gap-5 text-[15px] font-medium text-white sm:gap-7 sm:text-base">
+            <svg class="h-9 w-9 shrink-0 text-[#f4b4ae]" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="12" r="8"/><path d="m18 8 1.3 2.6 2.9.4-2.1 2 .5 2.9-2.6-1.4-2.6 1.4.5-2.9-2.1-2 2.9-.4z"/><path d="M4 29c3-3 6-4 10-4h5a2 2 0 0 1 0 4h-6M14 29h8l9-6a2 2 0 0 1 2.6 3L24 33H4"/></svg>
+            Siding installation</li>
+          <li class="flex items-center gap-5 text-[15px] font-medium text-white sm:gap-7 sm:text-base">
+            <svg class="h-9 w-9 shrink-0 text-[#f4b4ae]" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="30" height="20" rx="2"/><path d="m8 19 6-6 4 4 7-7M21 10h4v4M12 25l-3 6M24 25l3 6M8 31h20"/></svg>
+            Homes and buildings</li>
+          <li class="flex items-center gap-5 text-[15px] font-medium text-white sm:gap-7 sm:text-base">
+            <svg class="h-9 w-9 shrink-0 text-[#f4b4ae]" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 31s-11-6.5-11-15a6 6 0 0 1 11-3.4A6 6 0 0 1 29 16c0 8.5-11 15-11 15z"/><path d="m14 17 3 3 6-6"/></svg>
+            Serving Chicagoland</li>
+          <li class="flex items-center gap-5 text-[15px] font-medium text-white sm:gap-7 sm:text-base">
+            <svg class="h-9 w-9 shrink-0 text-[#f4b4ae]" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 3 3.4 2.5 4.2-.1 1.3 4 3.4 2.5-1.3 4 1.3 4-3.4 2.5-1.3 4-4.2-.1L18 29l-3.4-2.5-4.2.1-1.3-4L5.7 20l1.3-4-1.3-4L9.1 9.5l1.3-4 4.2.1z"/><circle cx="18" cy="16" r="6.5"/><path d="m15 16 2 2 4-4"/></svg>
+            Based in Lemont, IL</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <!-- Keep 4–5 questions. A client who needs more: copy a whole <details class="faq"> block (same look + open/close animation).
+         Answers must be true for THIS client (licence, warranty, areas, insurance help). -->
+    <section id="faq" class="bg-white pb-14 pt-12 lg:pb-16 lg:pt-14">
+      <div class="mx-auto grid max-w-7xl gap-8 px-5 lg:grid-cols-[380px_1fr] lg:items-start lg:px-6">
+        <div class="lg:sticky lg:top-28">
+          <p class="text-xs font-bold uppercase tracking-[0.22em] text-brand-600">FAQ</p>
+          <h2 class="mt-3 font-headline text-3xl font-bold leading-[1.1] tracking-tight text-slate-900 sm:text-4xl md:text-5xl lg:text-[40px]">Frequently Asked Questions</h2>
+          <a href="tel:+16302438713" class="mt-6 inline-flex min-h-[46px] items-center gap-2 rounded-full bg-slate-900 px-6 text-sm font-semibold text-white transition-colors hover:bg-brand-600">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
+            Still have questions? (630) 243-8713</a>
+        </div>
+        <div class="divide-y divide-slate-200 border-y border-slate-200">
+          <details class="faq group py-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-5 [&::-webkit-details-marker]:hidden">
+              <h3 class="text-base font-semibold text-slate-900 md:text-lg">What kinds of roofs do you install?</h3>
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-300 text-lg leading-none text-slate-900 transition-colors group-open:border-brand-500 group-open:bg-brand-500 group-open:text-white" aria-hidden="true"><span class="group-open:hidden">+</span><span class="hidden group-open:block">&minus;</span></span>
+            </summary>
+            <div class="faq-body overflow-hidden"><p class="max-w-3xl pt-4 text-sm leading-6 text-slate-600 md:text-base md:leading-7">We specialize in slate, tile and architectural sheet metal roofing, and we also install siding.</p></div>
+          </details>
+          <details class="faq group py-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-5 [&::-webkit-details-marker]:hidden">
+              <h3 class="text-base font-semibold text-slate-900 md:text-lg">Where do you work?</h3>
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-300 text-lg leading-none text-slate-900 transition-colors group-open:border-brand-500 group-open:bg-brand-500 group-open:text-white" aria-hidden="true"><span class="group-open:hidden">+</span><span class="hidden group-open:block">&minus;</span></span>
+            </summary>
+            <div class="faq-body overflow-hidden"><p class="max-w-3xl pt-4 text-sm leading-6 text-slate-600 md:text-base md:leading-7">We are based in Lemont, IL and work across Chicagoland. Call to check that we cover your address.</p></div>
+          </details>
+          <details class="faq group py-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-5 [&::-webkit-details-marker]:hidden">
+              <h3 class="text-base font-semibold text-slate-900 md:text-lg">Is slate or tile right for my home?</h3>
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-300 text-lg leading-none text-slate-900 transition-colors group-open:border-brand-500 group-open:bg-brand-500 group-open:text-white" aria-hidden="true"><span class="group-open:hidden">+</span><span class="hidden group-open:block">&minus;</span></span>
+            </summary>
+            <div class="faq-body overflow-hidden"><p class="max-w-3xl pt-4 text-sm leading-6 text-slate-600 md:text-base md:leading-7">Both are long-lasting, heavy roofing materials with a classic look. We&rsquo;ll look at your home and talk through which one fits it.</p></div>
+          </details>
+          <details class="faq group py-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-5 [&::-webkit-details-marker]:hidden">
+              <h3 class="text-base font-semibold text-slate-900 md:text-lg">How do I reach you?</h3>
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-300 text-lg leading-none text-slate-900 transition-colors group-open:border-brand-500 group-open:bg-brand-500 group-open:text-white" aria-hidden="true"><span class="group-open:hidden">+</span><span class="hidden group-open:block">&minus;</span></span>
+            </summary>
+            <div class="faq-body overflow-hidden"><p class="max-w-3xl pt-4 text-sm leading-6 text-slate-600 md:text-base md:leading-7">Call (630) 243-8713, email us from the contact section below, or send the form.</p></div>
+          </details>
+          <details class="faq group py-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-5 [&::-webkit-details-marker]:hidden">
+              <h3 class="text-base font-semibold text-slate-900 md:text-lg">How do I get a quote?</h3>
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-300 text-lg leading-none text-slate-900 transition-colors group-open:border-brand-500 group-open:bg-brand-500 group-open:text-white" aria-hidden="true"><span class="group-open:hidden">+</span><span class="hidden group-open:block">&minus;</span></span>
+            </summary>
+            <div class="faq-body overflow-hidden"><p class="max-w-3xl pt-4 text-sm leading-6 text-slate-600 md:text-base md:leading-7">Call us or send the form with a few details about your roof or siding project.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= LOCATION + SERVICE AREAS + MAP ================= -->
+    <!-- Location: one .loc-panel per office. 2+ panels => tabs appear automatically (data-name = tab label).
+         MAP_QUERY = the business name + address, URL-encoded (spaces as +), e.g. Acme+Roofing+123+Main+St+Town+ST.
+         MAP_LAT / MAP_LNG = the office coordinates (right-click the pin in Google Maps to copy them). -->
+    <section id="location" class="bg-white pb-12 pt-12 lg:pt-14">
+      <div class="mx-auto max-w-7xl px-5 lg:px-6">
+        <h2 class="mx-auto max-w-4xl text-center font-headline text-3xl font-bold leading-[1.1] tracking-tight text-slate-900 sm:text-4xl md:text-5xl">Get in Touch With Woodridge Roofing Co. <span class="text-brand-600">at Your Nearest Location</span></h2>
+        <div id="locTabs" role="tablist" aria-label="Our locations" class="mx-auto mt-8 hidden w-full max-w-2xl flex-col gap-1 rounded-2xl bg-brand-500 p-1.5 sm:flex-row sm:rounded-full"></div>
+
+        <div class="loc-panel mt-8 grid gap-8 rounded-3xl bg-slate-100 p-6 ring-1 ring-black/5 md:p-10 lg:grid-cols-[1fr_1fr_1.3fr] lg:items-start" role="tabpanel"
+             data-name="Lemont" data-lat="41.6568956" data-lng="-88.0024949" data-title="Lemont, IL" data-address="15701 W 127th St, Lemont, IL 60439">
+          <div>
+            <h3 class="font-headline text-2xl font-bold text-slate-900">Lemont, IL</h3>
+            <p class="mt-4 flex gap-3 text-slate-800"><svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg><span>15701 W 127th St<br>Lemont, IL 60439</span></p>
+            <a href="tel:+16302438713" class="mt-3 flex items-center gap-3 font-semibold text-slate-800 hover:text-brand-600">
+              <svg class="h-5 w-5 shrink-0 text-brand-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>(630) 243-8713</a>
+            <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Woodridge+Roofing+Co+15701+W+127th+St+Lemont+IL+60439" target="_blank" rel="noopener" class="mt-6 inline-flex min-h-[44px] items-center gap-2 rounded-full bg-slate-900 px-6 text-sm font-bold text-white transition-colors hover:bg-brand-600">Get Directions
+              <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 3h6v6M17 3l-8 8M15 12v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h4"/></svg></a>
+          </div>
+          <div>
+            <h3 class="flex items-center gap-2 font-headline text-2xl font-bold text-slate-900">
+              <svg class="h-5 w-5 text-brand-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 10.4V6h-2v7.2l4.6 2.8 1-1.7z"/></svg>Business Hours</h3>
+            <p class="mt-4 text-sm text-slate-500">Hours</p>
+            <p class="font-semibold text-slate-800">Call to set up a visit</p>
+          </div>
+          <iframe class="h-64 w-full rounded-2xl border-0 shadow-sm ring-1 ring-black/5 lg:h-72" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map to Lemont, IL"
+                  src="https://www.google.com/maps?q=Woodridge+Roofing+Co+15701+W+127th+St+Lemont+IL+60439&amp;z=14&amp;output=embed"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Where To Find Us: live map (pins + shaded service radius) with a ZIP checker.
+         SERVICE_ZIPS = every ZIP the client serves, comma separated. SERVICE_RADIUS_MILES = radius drawn around each office. -->
+    <section id="find" class="relative overflow-hidden bg-white lg:min-h-[640px]">
+      <div class="pointer-events-none absolute inset-x-0 top-0 z-10 hidden h-32 lg:block" style="background:linear-gradient(to bottom,#fff 0%,rgba(255,255,255,.5) 50%,transparent 100%)"></div>
+      <div class="relative z-20 mx-auto max-w-7xl px-4 pb-4 pt-8 lg:pointer-events-none lg:pb-2 lg:pt-20">
+        <h2 class="text-center font-headline text-[32px] font-extrabold leading-[1.02] tracking-tight text-brand-600 drop-shadow-sm sm:text-4xl md:text-[64px] lg:text-right lg:text-[78px] lg:leading-none">Where To Find Us</h2>
+      </div>
+      <div class="relative z-10 mx-4 mb-10 overflow-hidden rounded-2xl bg-white shadow-xl shadow-black/10 ring-1 ring-black/5 lg:contents">
+        <div id="areaMap" class="relative z-0 h-[260px] border-b border-slate-100 bg-slate-100 lg:absolute lg:inset-0 lg:h-auto lg:border-0" data-radius="25" aria-label="Map of our service area"></div>
+        <div class="relative z-20 lg:pointer-events-none lg:mx-auto lg:flex lg:max-w-7xl lg:justify-end lg:px-4 lg:pb-40 lg:pt-6">
+          <div class="p-6 text-center lg:pointer-events-auto lg:w-[380px] lg:rounded-2xl lg:bg-white/95 lg:p-8 lg:shadow-xl lg:ring-1 lg:ring-black/5 lg:backdrop-blur">
+            <h3 class="font-headline text-xl font-bold text-slate-900">Check If We Serve Your Area</h3>
+            <p class="mt-1 text-sm text-slate-500">Enter your zip code to find out instantly.</p>
+            <form id="zipForm" class="mt-5 flex gap-2" data-zips="60439" novalidate>
+              <label class="relative flex-1">
+                <span class="sr-only">Zip code</span>
+                <svg class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="m14 14 4 4"/></svg>
+                <input id="zipInput" type="text" inputmode="numeric" maxlength="5" autocomplete="postal-code" placeholder="e.g. 00000" class="h-12 w-full rounded-xl border border-slate-200 bg-white pl-10 pr-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20">
+              </label>
+              <button type="submit" class="h-12 rounded-xl bg-brand-500 px-5 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-brand-600">Check</button>
+            </form>
+            <p id="zipResult" class="mt-3 min-h-[1.25rem] text-sm font-medium" aria-live="polite"></p>
+            <p class="mt-1 text-xs text-slate-400">Serving <strong id="zipCount" class="font-semibold text-slate-600">0</strong> zip codes across Chicagoland</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT / FREE ESTIMATE: info cards on the left, estimate form on the right (same as Layout 2).
+         The form has no backend yet: point <form action> at the client's form handler (or Formspree etc.) and remove the demo script. -->
+    <section id="contact" class="bg-white pb-14 pt-12 lg:pb-16 lg:pt-14">
+      <div class="max-w-7xl mx-auto px-5 lg:px-6 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-14 items-start">
+
+        <!-- Left: info -->
+        <div class="lg:col-span-5">
+          <p class="text-brand-600 font-bold uppercase tracking-[0.14em] text-xs sm:text-sm">Get in Touch</p>
+          <h2 class="font-headline font-bold uppercase text-slate-800 text-4xl sm:text-5xl leading-[1.02] mt-3">Tell Us About Your Project</h2>
+          <p class="text-slate-600 text-base sm:text-lg leading-relaxed mt-5">Send us a few details about your roof or siding and we&rsquo;ll get back to you with a quote. Prefer to talk? Call (630) 243-8713.</p>
+
+          <!-- Only list contact details the client actually has -->
+          <div class="mt-8 space-y-3">
+            <div class="flex items-center gap-4 rounded-md bg-slate-50 ring-1 ring-slate-200 p-4">
+              <span class="grid place-items-center shrink-0 w-12 h-12 rounded-full bg-brand-600/10 text-brand-600">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+              </span>
+              <div>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Service Area</p>
+                <p class="text-sm sm:text-base font-bold text-slate-800">Lemont &amp; Chicagoland</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4 rounded-md bg-slate-50 ring-1 ring-slate-200 p-4">
+              <span class="grid place-items-center shrink-0 w-12 h-12 rounded-full bg-brand-600/10 text-brand-600">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
+              </span>
+              <div>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Call Us Directly</p>
+                <a href="tel:+16302438713" class="-my-2 inline-block whitespace-nowrap py-2 text-base font-extrabold text-slate-800 hover:text-brand-600 transition-colors">(630) 243-8713</a>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4 rounded-md bg-slate-50 ring-1 ring-slate-200 p-4">
+              <span class="grid place-items-center shrink-0 w-12 h-12 rounded-full bg-brand-600/10 text-brand-600">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>
+              </span>
+              <div class="min-w-0">
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Email Us</p>
+                <a href="mailto:sales@woodridgeenterprises.com" class="block break-all text-base font-extrabold text-slate-800 hover:text-brand-600 transition-colors">sales@woodridgeenterprises.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: form card -->
+        <div class="lg:col-span-7">
+          <div class="relative overflow-hidden rounded-md bg-white ring-1 ring-slate-200 shadow-xl p-7 sm:p-10">
+            <div class="absolute inset-x-0 top-0 h-1.5 bg-brand-600"></div>
+
+            <div class="mb-7">
+              <h3 class="font-headline font-semibold uppercase text-slate-800 text-3xl">Request a Quote</h3>
+              <p class="text-sm text-slate-500 mt-1.5">Fill out the form and we&rsquo;ll get back to you shortly.</p>
+            </div>
+
+            <form id="estimate-form" class="space-y-4" action="#" method="post">
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label for="est-name" class="block text-xs font-bold uppercase tracking-wide text-slate-700 mb-1.5">Full Name *</label>
+                  <input id="est-name" name="name" type="text" required autocomplete="name" placeholder="John Doe" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-md text-base sm:text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-brand-600 transition">
+                </div>
+                <div>
+                  <label for="est-phone" class="block text-xs font-bold uppercase tracking-wide text-slate-700 mb-1.5">Phone Number *</label>
+                  <input id="est-phone" name="phone" type="tel" required autocomplete="tel" placeholder="(555) 000-0000" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-md text-base sm:text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-brand-600 transition">
+                </div>
+              </div>
+
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label for="est-email" class="block text-xs font-bold uppercase tracking-wide text-slate-700 mb-1.5">Email Address *</label>
+                  <input id="est-email" name="email" type="email" required autocomplete="email" placeholder="john@example.com" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-md text-base sm:text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-brand-600 transition">
+                </div>
+                <div>
+                  <label for="est-service" class="block text-xs font-bold uppercase tracking-wide text-slate-700 mb-1.5">Service Needed *</label>
+                  <select id="est-service" name="service" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-md text-base sm:text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-brand-600 transition">
+                    <option value="">Select a service</option>
+                    <option>Slate Roofing</option>
+                    <option>Tile Roofing</option>
+                    <option>Architectural Sheet Metal</option>
+                    <option>Siding Installation</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label for="est-address" class="block text-xs font-bold uppercase tracking-wide text-slate-700 mb-1.5">Property Address</label>
+                <input id="est-address" name="address" type="text" autocomplete="street-address" placeholder="123 Main St, City, ST" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-md text-base sm:text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-brand-600 transition">
+              </div>
+
+              <div>
+                <label for="est-details" class="block text-xs font-bold uppercase tracking-wide text-slate-700 mb-1.5">Project Details</label>
+                <textarea id="est-details" name="details" rows="3" placeholder="Tell us a bit about your project or any leak issues..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-md text-base sm:text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-brand-600 transition"></textarea>
+              </div>
+
+              <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-headline font-medium uppercase tracking-wide text-lg py-3.5 rounded-md shadow-md transition-colors">
+                Request a Quote
+              </button>
+              <p id="estimate-status" class="hidden rounded-md bg-brand-600/10 text-brand-700 text-sm font-semibold px-4 py-3" role="status">Thanks! Woodridge Roofing Co. will be in touch soon.</p>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER: standard roofing footer (top bar, 4 link columns, bottom bar). Only list services, areas and pages the client really has. -->
+  <footer class="relative bg-brand-950 text-white/60 text-sm">
+    <!-- Top bar: brand, social icons, phone, CTA -->
+    <div class="border-b border-brand-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row items-center justify-between gap-6">
+        <a href="#" class="flex items-center gap-3">
+          <!-- Logo: same mark as the header -->
+          <img src="images/logo.png" alt="" class="h-11 w-11 rounded-lg bg-white object-contain p-1">
+          <span class="leading-none">
+            <span class="block font-headline font-extrabold uppercase tracking-tight text-xl text-white">Woodridge Roofing Co.</span>
+            <span class="block text-[10px] tracking-[0.18em] uppercase text-white/50 mt-1">Slate, tile &amp; sheet metal roofing in Lemont, Illinois</span>
+          </span>
+        </a>
+        <!-- Social icons (same links as the hero). Delete any the client doesn't have. -->
+        <ul class="flex flex-wrap items-center justify-center gap-3">
+          <li><a href="mailto:sales@woodridgeenterprises.com" aria-label="Email us" title="Email us" class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-brand-500">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></svg></a></li>
+          <li><a href="https://www.facebook.com/p/Woodridge-Enterprises-Inc-61579327649316/" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook" class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-brand-500">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 8.5V6.8c0-.8.5-1.3 1.4-1.3H17V2.2C16.7 2.1 15.6 2 14.4 2 11.8 2 10 3.6 10 6.4v2.1H7.3V12H10v10h4V12h2.8l.5-3.5z"/></svg></a></li>
+          <li><a href="https://maps.google.com/?cid=15583210223223763996" target="_blank" rel="noopener" aria-label="Google Business Profile" title="Find us on Google" class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-brand-500">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></a></li>
+        </ul>
+        <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+          <a href="tel:+16302438713" class="-my-2 py-2 font-extrabold text-xl text-white hover:text-brand-500 transition-colors">(630) 243-8713</a>
+          <a href="#contact" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-6 py-3 rounded-md transition-colors text-xs uppercase tracking-wider shadow-md">Request a Quote</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Link columns -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 grid grid-cols-2 md:grid-cols-4 gap-10">
+      <div>
+        <h4 class="font-headline font-medium text-white uppercase mb-4 text-base tracking-wider">Services</h4>
+        <ul class="space-y-0.5">
+          <!-- one <li> per real service -->
+          <li><a href="#services" class="inline-block py-1 hover:text-white transition-colors">Slate Roofing</a></li>
+          <li><a href="#services" class="inline-block py-1 hover:text-white transition-colors">Tile Roofing</a></li>
+          <li><a href="#services" class="inline-block py-1 hover:text-white transition-colors">Architectural Sheet Metal</a></li>
+          <li><a href="#services" class="inline-block py-1 hover:text-white transition-colors">Siding Installation</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-headline font-medium text-white uppercase mb-4 text-base tracking-wider">Service Areas</h4>
+        <ul class="space-y-0.5">
+          <!-- one <li> per real area -->
+          <li><a href="#find" class="inline-block py-1 hover:text-white transition-colors">Lemont</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-headline font-medium text-white uppercase mb-4 text-base tracking-wider">Company</h4>
+        <ul class="space-y-0.5">
+          <!-- mirror the site's real sections only -->
+          <li><a href="#about" class="inline-block py-1 hover:text-white transition-colors">About Us</a></li>
+          <li><a href="#work" class="inline-block py-1 hover:text-white transition-colors">Our Work</a></li>
+          <li><a href="#faq" class="inline-block py-1 hover:text-white transition-colors">FAQ</a></li>
+          <li><a href="#find" class="inline-block py-1 hover:text-white transition-colors">Service Areas</a></li>
+          <li><a href="#contact" class="inline-block py-1 hover:text-white transition-colors">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-headline font-medium text-white uppercase mb-4 text-base tracking-wider">Contact</h4>
+        <p class="leading-relaxed mb-3">15701 W 127th St<br>Lemont, IL 60439</p>
+        <a href="tel:+16302438713" class="block py-1 hover:text-white transition-colors">(630) 243-8713</a>
+        <a href="mailto:sales@woodridgeenterprises.com" class="block break-all py-1 hover:text-white transition-colors">sales@woodridgeenterprises.com</a>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="border-t border-brand-900">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-white/45 text-center sm:text-left">
+        <span>&copy; 2026 Woodridge Roofing Co.. All rights reserved.</span>
+        <span>Slate, tile and architectural sheet metal roofing and siding installation for Chicagoland, from Lemont, IL.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Header sits under the lead bar at the top, then pins to the top as white once you scroll.
+    (function () {
+      var header = document.getElementById('siteHeader');
+      var lead = document.getElementById('leadBar');
+      function onScroll() {
+        var y = window.scrollY;
+        header.style.top = Math.max(0, lead.offsetHeight - y) + 'px';
+        header.classList.toggle('is-scrolled', y > 60);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      onScroll();
+
+      // Mobile menu
+      var menu = document.getElementById('mobileMenu');
+      var scrim = document.getElementById('menuScrim');
+      var openBtn = document.getElementById('menuOpen');
+      function setMenu(open) {
+        menu.classList.toggle('open', open);
+        scrim.classList.toggle('hidden', !open);
+        openBtn.setAttribute('aria-expanded', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+      }
+      openBtn.addEventListener('click', function () { setMenu(true); });
+      document.getElementById('menuClose').addEventListener('click', function () { setMenu(false); });
+      scrim.addEventListener('click', function () { setMenu(false); });
+      menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+
+      // Reviews: avatar letters, "Read more", and a slider that glides right to the end, then back left
+      var avatarColors = ['#c2410c', '#1d4ed8', '#047857', '#7c3aed', '#be123c', '#0e7490'];
+      document.querySelectorAll('.rv-slide').forEach(function (s, i) {
+        var av = s.querySelector('.rv-avatar');
+        av.textContent = s.querySelector('.rv-name').textContent.trim().charAt(0).toUpperCase();
+        av.style.backgroundColor = avatarColors[i % avatarColors.length];
+        var text = s.querySelector('.rv-text'), more = s.querySelector('.rv-more');
+        if (text.scrollHeight > text.clientHeight + 2) more.classList.remove('invisible');
+        more.addEventListener('click', function () {
+          var open = text.classList.toggle('line-clamp-4') === false;
+          more.textContent = open ? 'Show less' : 'Read more';
+        });
+      });
+
+      // Sliders (reviews, project photos, project videos). Markup hooks: .slider > [data-viewport] > [data-track] > slides,
+      // plus [data-prev]/[data-next]. data-autoplay = glide right to the end, then back left. data-center = active slide centred.
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.querySelectorAll('.slider').forEach(function (root) {
+        var viewport = root.querySelector('[data-viewport]');
+        var track = root.querySelector('[data-track]');
+        var slides = track.children;
+        if (!slides.length) return;
+        var center = root.hasAttribute('data-center');
+        var idx = center ? Math.min(1, slides.length - 1) : 0, dir = 1, timer = null, paused = false;
+        function w() { return slides[0].offsetWidth; }
+        function lead() { return center ? (viewport.clientWidth - w()) / 2 : 0; }
+        function maxOff() { return Math.max(0, slides.length * w() - viewport.clientWidth); }
+        function maxIdx() { return Math.min(slides.length - 1, Math.max(0, Math.ceil((maxOff() + lead()) / w() - 0.01))); }
+        function go(i) {
+          idx = Math.min(Math.max(i, 0), maxIdx());
+          var off = Math.min(Math.max(idx * w() - lead(), 0), maxOff());
+          track.style.transform = 'translateX(' + (-off) + 'px)';
+        }
+        function step() {
+          if (paused) return;
+          if (idx + dir > maxIdx() || idx + dir < 0) dir = -dir;   // turn around at either end
+          go(idx + dir);
+        }
+        function restart() {
+          clearInterval(timer);
+          if (root.hasAttribute('data-autoplay') && !reduceMotion) timer = setInterval(step, 4500);
+        }
+        root.querySelector('[data-next]').addEventListener('click', function () { dir = 1; go(idx >= maxIdx() ? 0 : idx + 1); restart(); });
+        root.querySelector('[data-prev]').addEventListener('click', function () { dir = -1; go(idx <= 0 ? maxIdx() : idx - 1); restart(); });
+        root.addEventListener('mouseenter', function () { paused = true; });
+        root.addEventListener('mouseleave', function () { paused = false; });
+        root.addEventListener('focusin', function () { paused = true; });
+        root.addEventListener('focusout', function () { paused = false; });
+        var x0 = null;
+        root.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+        root.addEventListener('touchend', function (e) {
+          if (x0 === null) return;
+          var dx = e.changedTouches[0].clientX - x0; x0 = null;
+          if (Math.abs(dx) > 40) { dir = dx < 0 ? 1 : -1; go(idx + dir); restart(); }
+        });
+        window.addEventListener('resize', function () { go(idx); });
+        go(idx);
+        restart();
+      });
+
+      // Project videos: YouTube thumbnail from the ID; click swaps in the player
+      document.querySelectorAll('.vid').forEach(function (v) {
+        var id = v.getAttribute('data-yt');
+        if (!/^[\w-]{11}$/.test(id)) return;   // no real ID yet: keep the temporary poster
+        v.querySelector('.vid-thumb').src = 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg';
+        v.querySelector('.vid-play').addEventListener('click', function () {
+          v.innerHTML = '<iframe class="absolute inset-0 h-full w-full" src="https://www.youtube-nocookie.com/embed/' + id +
+            '?autoplay=1&rel=0" title="Project video" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        });
+      });
+
+      // FAQ: smooth slide open/closed (native <details> still works without JS)
+      document.querySelectorAll('details.faq').forEach(function (d) {
+        var body = d.querySelector('.faq-body');
+        d.querySelector('summary').addEventListener('click', function (e) {
+          if (reduceMotion) return;
+          e.preventDefault();
+          if (d.open) {
+            var anim = body.animate([{ height: body.offsetHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 300, easing: 'ease-in-out' });
+            anim.onfinish = function () { d.open = false; };
+          } else {
+            d.open = true;
+            body.animate([{ height: '0px', opacity: 0 }, { height: body.offsetHeight + 'px', opacity: 1 }], { duration: 350, easing: 'ease-out' });
+          }
+        });
+      });
+
+      // Locations: build tabs when there is more than one .loc-panel
+      var panels = document.querySelectorAll('.loc-panel');
+      var tabBar = document.getElementById('locTabs');
+      if (panels.length > 1) {
+        tabBar.classList.remove('hidden'); tabBar.classList.add('flex');
+        panels.forEach(function (p, i) {
+          var t = document.createElement('button');
+          t.type = 'button'; t.setAttribute('role', 'tab'); t.textContent = p.getAttribute('data-name');
+          t.className = 'flex-1 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors sm:rounded-full';
+          t.addEventListener('click', function () { showLoc(i); });
+          tabBar.appendChild(t);
+        });
+        var showLoc = function (n) {
+          panels.forEach(function (p, i) { p.classList.toggle('hidden', i !== n); });
+          tabBar.querySelectorAll('button').forEach(function (t, i) {
+            var on = i === n;
+            t.setAttribute('aria-selected', on);
+            t.classList.toggle('bg-white', on); t.classList.toggle('text-slate-900', on); t.classList.toggle('shadow', on);
+            t.classList.toggle('text-white', !on); t.classList.toggle('hover:bg-white/15', !on);
+          });
+        };
+        showLoc(0);
+      }
+
+      // ZIP checker
+      var zipForm = document.getElementById('zipForm');
+      if (zipForm) {
+        var zips = zipForm.getAttribute('data-zips').split(',').map(function (z) { return z.trim(); }).filter(function (z) { return /^\d{5}$/.test(z); });
+        document.getElementById('zipCount').textContent = zips.length.toLocaleString();
+        if (zips.length) document.getElementById('zipInput').placeholder = 'e.g. ' + zips[0];
+        zipForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var z = document.getElementById('zipInput').value.trim(), out = document.getElementById('zipResult');
+          if (!/^\d{5}$/.test(z)) { out.className = 'mt-3 min-h-[1.25rem] text-sm font-medium text-slate-500'; out.textContent = 'Please enter a 5-digit zip code.'; return; }
+          var yes = zips.indexOf(z) !== -1;
+          out.className = 'mt-3 min-h-[1.25rem] text-sm font-medium ' + (yes ? 'text-brand-600' : 'text-slate-600');
+          out.textContent = yes ? 'Good news, we serve ' + z + '! Call us or request a quote.' : 'We may not cover ' + z + ' yet. Give us a call and we will let you know.';
+        });
+      }
+
+      // Where To Find Us map: load Leaflet only when the map is about to scroll into view
+      var mapEl = document.getElementById('areaMap');
+      if (mapEl && 'IntersectionObserver' in window) {
+        var mapIo = new IntersectionObserver(function (entries) {
+          if (!entries[0].isIntersecting) return;
+          mapIo.disconnect();
+          var css = document.createElement('link');
+          css.rel = 'stylesheet'; css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
+          document.head.appendChild(css);
+          var js = document.createElement('script');
+          js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+          js.onload = buildMap;
+          document.body.appendChild(js);
+        }, { rootMargin: '400px' });
+        mapIo.observe(mapEl);
+      }
+      function buildMap() {
+        var brand = getComputedStyle(document.querySelector('.bg-brand-500')).backgroundColor;
+        var miles = parseFloat(mapEl.getAttribute('data-radius')) || 25;
+        var map = L.map(mapEl, { scrollWheelZoom: false, zoomControl: false, attributionControl: true });
+        L.control.zoom({ position: 'bottomleft' }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap' }).addTo(map);
+        var pinIcon = L.divIcon({ className: '', iconSize: [34, 44], iconAnchor: [17, 42], tooltipAnchor: [0, -40],
+          html: '<svg width="34" height="44" viewBox="0 0 24 31"><path fill="' + brand + '" stroke="#fff" stroke-width="1.5" d="M12 1a10 10 0 0 0-10 10c0 7.5 10 18.5 10 18.5S22 18.5 22 11A10 10 0 0 0 12 1z"/><circle cx="12" cy="11" r="3.6" fill="#fff"/></svg>' });
+        var group = [];
+        panels.forEach(function (p) {
+          var lat = parseFloat(p.getAttribute('data-lat')), lng = parseFloat(p.getAttribute('data-lng'));
+          if (isNaN(lat) || isNaN(lng)) return;
+          L.circle([lat, lng], { radius: miles * 1609, color: brand, weight: 2, dashArray: '6 4', fillColor: brand, fillOpacity: 0.12 }).addTo(map);
+          L.marker([lat, lng], { icon: pinIcon }).addTo(map)
+            .bindTooltip('<strong>' + p.getAttribute('data-title') + '</strong><br><span style="opacity:.6">' + p.getAttribute('data-address') + '</span>', { direction: 'top' });
+          group.push(L.latLng(lat, lng).toBounds(miles * 1609 * 2));   // circle's box, without needing the map drawn first
+        });
+        if (!group.length) { map.setView([39.5, -98.35], 4); return; }
+        var bounds = group[0];
+        group.forEach(function (b) { bounds.extend(b); });
+        var wide = window.innerWidth >= 1024;
+        map.fitBounds(bounds, { paddingTopLeft: [40, wide ? 140 : 20], paddingBottomRight: [wide ? 460 : 20, 20] });
+      }
+
+      // Estimate form: DEMO ONLY (no backend) — shows the thank-you note. Remove once the form posts to a real handler.
+      var estForm = document.getElementById('estimate-form');
+      if (estForm) {
+        estForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          document.getElementById('estimate-status').classList.remove('hidden');
+          estForm.reset();
+        });
+      }
+
+      // Services: "View More Services" reveals the extra cards
+      var extras = document.querySelectorAll('.svc-extra');
+      var moreBtn = document.getElementById('svcMore');
+      if (!extras.length) {
+        document.getElementById('svcMoreWrap').remove();
+      } else {
+        moreBtn.addEventListener('click', function () {
+          var open = moreBtn.getAttribute('aria-expanded') !== 'true';
+          extras.forEach(function (c) { c.classList.toggle('hidden', !open); c.classList.toggle('block', open); });
+          moreBtn.setAttribute('aria-expanded', open);
+          moreBtn.querySelector('span').textContent = open ? 'Show Fewer Services' : 'View More Services';
+          moreBtn.querySelector('svg').classList.toggle('rotate-90', !open);
+          moreBtn.querySelector('svg').classList.toggle('-rotate-90', open);
+          if (!open) document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+
+      // ---------- Nav glide: in-page links scroll smoothly to just under the header ----------
+      var motionOn = document.documentElement.classList.contains('motion');
+      var glideBar = document.createElement('span');
+      glideBar.className = 'nav-glide bg-brand-500';
+      glideBar.setAttribute('aria-hidden', 'true');
+      header.appendChild(glideBar);
+      var glideRaf = 0, glideId = 0;
+      function stopGlide() { cancelAnimationFrame(glideRaf); glideRaf = 0; glideId++; glideBar.classList.remove('is-on'); }
+      ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { window.addEventListener(ev, function () { if (glideRaf) stopGlide(); }, { passive: true }); });
+
+      function arrive(section) {
+        var h = section.querySelector('h1, h2');
+        if (!h || section.id === 'top') return;
+        var group = [h.previousElementSibling, h, h.nextElementSibling].filter(function (el) { return el && /^(P|H2)$/.test(el.tagName); });
+        group.forEach(function (el, i) {
+          el.classList.remove('nav-arrive'); void el.offsetWidth;
+          el.style.setProperty('--d', (i * 90) + 'ms');
+          el.classList.add('nav-arrive');
+          setTimeout(function () { el.classList.remove('nav-arrive'); el.style.removeProperty('--d'); }, 1200 + i * 90);
+        });
+        var align = getComputedStyle(h).textAlign, bar = document.createElement('span');
+        bar.className = 'nav-arrive-bar bg-brand-500';
+        bar.setAttribute('aria-hidden', 'true');
+        if (align === 'center') { bar.style.left = '50%'; bar.style.setProperty('--x', 'translateX(-50%)'); bar.style.transformOrigin = 'left'; }
+        else if (align === 'right') { bar.style.right = '0'; bar.style.transformOrigin = 'right'; }
+        else { bar.style.left = '0'; bar.style.transformOrigin = 'left'; }
+        var pos = h.style.position; h.style.position = 'relative';
+        h.appendChild(bar);
+        setTimeout(function () { bar.remove(); h.style.position = pos; }, 1700);
+      }
+
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest('a[href^="#"]');
+        if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+        var id = a.getAttribute('href').slice(1);
+        var target = id ? document.getElementById(id) : document.getElementById('top');
+        if (!target) return;
+        e.preventDefault();
+        if (motionOn && a.closest('#siteHeader, #mobileMenu, #leadBar')) {
+          a.classList.remove('nav-hit'); void a.offsetWidth; a.classList.add('nav-hit');
+          setTimeout(function () { a.classList.remove('nav-hit'); }, 500);
+        }
+        var startY = window.scrollY;
+        var endY = target.id === 'top' ? 0 : Math.max(0, Math.round(target.getBoundingClientRect().top + startY - header.offsetHeight));
+        endY = Math.min(endY, document.documentElement.scrollHeight - window.innerHeight);
+        if (history.replaceState) history.replaceState(null, '', id && id !== 'top' ? '#' + id : location.pathname);
+        var done = function () {
+          stopGlide();
+          spy();
+          target.setAttribute('tabindex', '-1');
+          target.focus({ preventScroll: true });
+          if (motionOn) arrive(target);
+        };
+        stopGlide();
+        if (!motionOn || Math.abs(endY - startY) < 2) { window.scrollTo(0, endY); done(); return; }
+        var dist = endY - startY, dur = Math.min(1100, Math.max(550, 380 + Math.abs(dist) * 0.18)), t0 = null;
+        var ease = function (t) { return t < .5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2; };
+        glideBar.classList.add('is-on');
+        var step = function (now) {
+          if (t0 === null) t0 = now;
+          var p = Math.min(1, (now - t0) / dur);
+          window.scrollTo(0, startY + dist * ease(p));
+          glideBar.style.transform = 'scaleX(' + p + ')';
+          if (p < 1) glideRaf = requestAnimationFrame(step); else done();
+        };
+        glideRaf = requestAnimationFrame(step);
+        var myId = glideId;   // safety net: if frames stall (background tab), land on time anyway
+        setTimeout(function () { if (glideId === myId && glideRaf) { window.scrollTo(0, endY); done(); } }, dur + 150);
+      });
+
+      // Current section's nav link stays underlined
+      var spyLinks = [].slice.call(document.querySelectorAll('#siteHeader nav > a.nav-link, #siteHeader nav .dd > a.nav-link'));
+      var spy = function () {
+        var line = header.offsetHeight + 40, current = null, best = -Infinity;
+        spyLinks.forEach(function (l) {   // the section that most recently passed under the header wins (page order, not nav order)
+          var s = document.getElementById(l.getAttribute('href').slice(1)), top = s ? s.getBoundingClientRect().top : Infinity;
+          if (top <= line && top > best) { best = top; current = l; }
+        });
+        spyLinks.forEach(function (l) { l.classList.toggle('is-active', l === current); });
+      };
+      window.addEventListener('scroll', spy, { passive: true });
+      window.addEventListener('resize', spy);
+      spy();
+
+      // ---------- Motion: hero entrance + scroll reveals ----------
+      // Effects are assigned here (not in the markup) so the template's HTML/tokens stay untouched.
+      // Variants: up (rise + focus), lift (rise only, for big cards), side, mask (headline), curtain (photos).
+      var root = document.documentElement;
+      if (root.classList.contains('motion')) {
+        root.classList.add('motion-init');
+        var tag = function (sel, variant, step) {
+          document.querySelectorAll(sel).forEach(function (el) {
+            if (el.hasAttribute('data-reveal')) return;
+            el.setAttribute('data-reveal', variant);
+            if (step) el.setAttribute('data-step', step);
+          });
+        };
+
+        // Hero: plays once on load, in a fixed order
+        var heroIn = document.querySelector('#top > section:first-child .relative.z-10');
+        var heroParts = heroIn ? heroIn.children : [];
+        [].forEach.call(heroParts, function (el, i) {
+          el.setAttribute('data-reveal', i === 0 ? 'mask' : 'up');
+          el.style.setProperty('--d', (250 + i * 140) + 'ms');
+        });
+
+        // Sections: revealed as they scroll in (data-step = stagger between items arriving together)
+        tag('#services .text-center > *', 'up', 110);
+        tag('#services .svc-card', 'curtain', 90);
+        tag('#svcMoreWrap', 'up');
+        tag('#about > div > div:first-child', 'curtain');
+        tag('#about > div > div:last-child > *', 'up', 90);
+        tag('#reviews > div > p, #reviews h2', 'up', 110);
+        tag('#reviews .grid > *', 'up', 160);
+        tag('#work > div:first-child > *', 'up', 110);
+        tag('#work .slider', 'lift');
+        tag('#work h3, #work h3 + p', 'up', 90);
+        tag('#why .grid > div > *', 'up', 100);
+        tag('#why li', 'side', 70);
+        tag('#faq .grid > div:first-child > *', 'up', 100);
+        tag('#faq details', 'up', 70);
+        tag('#location h2', 'up');
+        tag('.loc-panel', 'lift');
+        tag('#find h2', 'up');
+        tag('#contact > div > div:first-child > *', 'up', 90);
+        tag('#contact > div > div:last-child', 'lift');
+        tag('footer .grid > div', 'up', 90);
+
+        // Once every part of a reveal has finished (longest is the photo settle, 1.8s), drop the attribute
+        // so each element gets its own hover/transition styles back
+        var reveal = function (el) {
+          el.classList.add('is-in');
+          var d = parseInt(el.style.getPropertyValue('--d'), 10) || 0;
+          setTimeout(function () {
+            el.removeAttribute('data-reveal'); el.removeAttribute('data-step'); el.classList.remove('is-in'); el.style.removeProperty('--d');
+          }, d + 1900);
+        };
+        if ('IntersectionObserver' in window) {
+          var io = new IntersectionObserver(function (entries) {
+            var n = 0;   // items arriving in the same frame cascade one after another
+            entries.forEach(function (en) {
+              if (!en.isIntersecting) return;
+              var el = en.target, step = parseInt(el.getAttribute('data-step'), 10) || 0;
+              el.style.setProperty('--d', (n++ * step) + 'ms');
+              reveal(el); io.unobserve(el);
+            });
+          }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+          document.querySelectorAll('[data-reveal]').forEach(function (el) {
+            if (!heroIn || !heroIn.contains(el)) io.observe(el);
+          });
+        } else {
+          document.querySelectorAll('[data-reveal]').forEach(reveal);
+        }
+
+        // Hidden states are set; turn transitions back on, then start the entrance after first paint
+        void root.offsetHeight;
+        root.classList.remove('motion-init');
+        var started = false;
+        var start = function () {
+          if (started) return; started = true;
+          root.classList.add('loaded');
+          [].forEach.call(heroParts, reveal);
+        };
+        requestAnimationFrame(function () { requestAnimationFrame(start); });
+        setTimeout(start, 600);   // fallback if animation frames are paused (e.g. page opened in a background tab)
+      }
+    })();
+  </script>
+
+  <!-- Concept preview label (remove when this becomes the client's real site) -->
+  <div class="pointer-events-none fixed bottom-3 left-3 z-[90] rounded-full bg-slate-900/80 px-3 py-1.5 text-[11px] font-medium text-white/90 shadow-lg backdrop-blur">Concept preview by Aritdo Design</div>
+</body>
+</html>
